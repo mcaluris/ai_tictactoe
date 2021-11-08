@@ -111,6 +111,7 @@ def Max_Value(board, highest_low, lowest_high):
         v = max(v, Min_Value(result(board, action), highest_low, lowest_high))
         if v >= lowest_high:
             break
+        highest_low = max(highest_low, v)
     return v
 
 
@@ -122,6 +123,7 @@ def Min_Value(board, highest_low, lowest_high):
         v = min(v, Max_Value(result(board, action), highest_low, lowest_high))
         if v <= highest_low:
             break
+        lowest_high = min(lowest_high, v)
     return v
 
 # minimax function with alpha-beta prunning
