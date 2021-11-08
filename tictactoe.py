@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 import copy
 import math
+import random
 
 X = "X"
 O = "O"
@@ -105,43 +106,55 @@ def utility(board):
     return 0
 
 
-def Max_Value(board):
+def Max_Value(board, highest_low, lowest_high):
     if terminal(board):
         return utility(board)
     v = NEG_INF
     for action in actions(board):
-        v = max(v, Min_Value(result(board, action)))
+        v = max(v, Min_Value(result(board, action), highest_low, lowest_high))
+        if v > lowest_high:
+            break
     return v
 
 
-def Min_Value(board):
+def Min_Value(board, highest_low, lowest_high):
     if terminal(board):
         return utility(board)
     v = INF
     for action in actions(board):
-        v = min(v, Max_Value(result(board, action)))
+        v = min(v, Max_Value(result(board, action), highest_low, lowest_high))
+        if v < highest_low:
+            break
     return v
+
+# minimax function with alpha-beta prunning
 
 
 def minimax(board):
 
     if terminal(board):
         return None
-    currentplayer = player(board)
+    c_player = player(board)
     actionlist = actions(board)
-    action_value, highest_low, lowest_high = 0, NEG_INF, INF
-    if currentplayer == X:
+    highest_low, lowest_high = NEG_INF, INF
+    if c_player == X:
+        if len(actions(board)) == 9:
+            corners = [(0, 0), (0, 2), (2, 0), (2, 2)]
+            random.shuffle(corners)
+            return corners[0]
         for action in actionlist:
-            action_value = Min_Value(result(board, (action[0], action[1])))
-            if action_value > highest_low:
-                highest_low = action_value
+            value = Min_Value(
+                result(board, (action[0], action[1])), highest_low, lowest_high)
+            if value > highest_low:
+                highest_low = value
                 best_move = action
         return best_move
 
-    if currentplayer == O:
+    if c_player == O:
         for action in actionlist:
-            current = Max_Value(result(board, (action[0], action[1])))
-            if action_value < lowest_high:
-                lowest_high = action_value
+            value = Max_Value(
+                result(board, (action[0], action[1])), highest_low, lowest_high)
+            if value < lowest_high:
+                lowest_high = value
                 best_move = action
         return best_move
