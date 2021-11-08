@@ -59,6 +59,8 @@ def result(board, action):
         new_board[action[0]][action[1]] = X
     return new_board
 
+# need to add check row, check col, & top, bottom check diagonal funtions to clean tyis up
+
 
 def winner(board):
 
