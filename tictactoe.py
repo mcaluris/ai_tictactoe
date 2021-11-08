@@ -109,7 +109,7 @@ def Max_Value(board, highest_low, lowest_high):
     v = NEG_INF
     for action in actions(board):
         v = max(v, Min_Value(result(board, action), highest_low, lowest_high))
-        if v > lowest_high:
+        if v >= lowest_high:
             break
     return v
 
@@ -120,7 +120,7 @@ def Min_Value(board, highest_low, lowest_high):
     v = INF
     for action in actions(board):
         v = min(v, Max_Value(result(board, action), highest_low, lowest_high))
-        if v < highest_low:
+        if v <= highest_low:
             break
     return v
 
