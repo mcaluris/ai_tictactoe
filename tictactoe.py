@@ -59,30 +59,25 @@ def result(board, action):
         new_board[action[0]][action[1]] = X
     return new_board
 
-# need to add check row, check col, & top, bottom check diagonal funtions to clean tyis up
-
 
 def winner(board):
-
-    if ((board[0][0] == X and board[0][1] == X and board[0][2] == X) or
-        (board[1][0] == X and board[1][1] == X and board[1][2] == X) or
-        (board[2][0] == X and board[2][1] == X and board[2][2] == X) or
-        (board[0][0] == X and board[1][0] == X and board[2][0] == X) or
-        (board[0][1] == X and board[1][1] == X and board[2][1] == X) or
-        (board[0][2] == X and board[1][2] == X and board[2][2] == X) or
-        (board[0][0] == X and board[1][1] == X and board[2][2] == X) or
-            (board[0][2] == X and board[1][1] == X and board[2][0] == X)):
-        return X
-
-    if ((board[0][0] == O and board[0][1] == O and board[0][2] == O) or
-        (board[1][0] == O and board[1][1] == O and board[1][2] == O) or
-        (board[2][0] == O and board[2][1] == O and board[2][2] == O) or
-        (board[0][0] == O and board[1][0] == O and board[2][0] == O) or
-        (board[0][1] == O and board[1][1] == O and board[2][1] == O) or
-        (board[0][2] == O and board[1][2] == O and board[2][2] == O) or
-        (board[0][0] == O and board[1][1] == O and board[2][2] == O) or
-            (board[0][2] == O and board[1][1] == O and board[2][0] == O)):
-        return O
+    for row in board:
+        x_count = row.count(X)
+        o_count = row.count(O)
+        if x_count == 3:
+            return X
+        if o_count == 3:
+            return O
+    for i in range(3):
+        column = [row[i] for row in board]
+        if column.count(X) == 3:
+            return X
+        if column.count(O) == 3:
+            return O
+        if board[0][2] == board[1][1] == board[2][0]:
+            return board[0][2]
+        if board[0][0] == board[1][1] == board[2][2]:
+            return board[0][0]
     return None
 
 
